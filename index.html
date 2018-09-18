@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Leaflet Map with Heatmap </title>
+    <meta charset="utf-8" />
+    <link 
+        rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+    />
+</head>
+<body ng-app="LeafAngularMap" ng-controller="MapController">
+    <div  id="map" style="width: 100%; height: 900px"></div>
+
+    <script
+       src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+    </script>
+    <script src = "node_modules/leaflet.heat/dist/leaflet-heat.js"></script>
+   
+        <script src="2013-earthquake.js"></script>
+        <script src = "node_modules/angular/angular.js"></script>
+    <script>
+        var app = angular.module('LeafAngularMap',[])
+        app.controller("MapController",function($scope){
+           console.log(quakePoints)
+           $scope.points = {}
+           $scope.points.quakePoints = quakePoints
+            var map = L.map('map').setView([-41.5546,174.146], 10);
+            mapLink = 
+                '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+            L.tileLayer(
+                'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; ' + mapLink + ' Contributors',
+                maxZoom: 18,
+                id:'mapbox.streets'
+            }).addTo(map);
+            
+            var heat = L.heatLayer($scope.points.quakePoints,{
+                radius: 10,
+                blur: 15, 
+                maxZoom: 17,
+            }).addTo(map);
+                    
+
+
+        })
+
+
+    </script>
+</body>
+</html>
